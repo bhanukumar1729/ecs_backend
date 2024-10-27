@@ -2,7 +2,16 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const Availability = require('../models/Availability');
 
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        console.log('MongoDB connected successfully');
+        // Start your server or perform other actions here
+    })
+    .catch(err => {
+        console.error('MongoDB connection error:', err);
+        // Handle the error, maybe exit the process
+        process.exit(1);
+    });
 
 exports.handler = async (event) => {
   const { httpMethod, path, queryStringParameters, pathParameters } = event;
